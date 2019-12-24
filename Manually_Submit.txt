@@ -27,7 +27,7 @@ $SMTP_PORT:=587  //SMTPポート
 $SMTP_ACCOUNT:="< SMTP account >"
 $SMTP_PASSWORD:="< SMTP password >"
 $SMTP_FROM:="< SMTP from address >"
-AUTOBK_Smtp ("smtp.rna.co.jp";587;"info@dev.rna.co.jp";"xh$Wa26#";"info@dev.rna.co.jp")
+AUTOBK_Smtp ($SMTP_HOST;$SMTP_PORT;$SMTP_ACCOUNT;$SMTP_PASSWORD;$SMTP_FROM)
   //※ 認証が不要の場合はアカウント名をブランクにする
 
 TRACE
