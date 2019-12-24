@@ -11,7 +11,7 @@ C_TEXT($SMTP_ACCOUNT)
 C_TEXT($SMTP_PASSWORD)
 C_TEXT($SMTP_FROM)
 
-$PATH:="< Fullpath to client json file from Google >"
+$PATH:="< Fullpath to client json file from Google >"  //Googleからの認証ファイル(JSON)へのフルパス
 DOCUMENT TO BLOB($PATH;$BLOB)
 $JSON:=Convert to text($BLOB;"UTF-8")
 
