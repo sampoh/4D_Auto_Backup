@@ -1,6 +1,7 @@
   //"On Backup Shutdown" メソッドの実装イメージ
 
 C_TEXT($DIR_UUID)
+C_BOOLEAN($FLG_ZIP)
 ARRAY TEXT($atTO;0)
 ARRAY TEXT($atCC;0)
 ARRAY TEXT($atBCC;0)
@@ -8,10 +9,13 @@ ARRAY TEXT($atBCC;0)
   //バックアップ保存先ルートフォルダをGoogle DriveのUUIDで指定
 $DIR_UUID:="< Google Drive のフォルダのUUID >"
 
+  //ZIP圧縮するかどうか指定
+$FLG_ZIP:=True
+
   //完了時通知先 ( 任意 )
 APPEND TO ARRAY($atTO;"< 通知先メールアドレス TO >")
 APPEND TO ARRAY($atCC;"< 通知先メールアドレス CC >")
 APPEND TO ARRAY($atBCC;"< 通知先メールアドレス BCC >")
 
-AUTOBK_Start ($DIR_UUID;->$atTO)
+AUTOBK_Start ($DIR_UUID;$FLG_ZIP;->$atTO)
 
