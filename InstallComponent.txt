@@ -1,0 +1,85 @@
+//< ビルド済みコンポーネントを "Components" フォルダへダウンロード >
+
+//※1 サーバ上もしくはローカルデータベースで実行してください。
+//※2 4D Remoteからは必ず "サーバ上で実行" を有効にするか "Execute on server" を用いて実行すること。
+
+C_TEXT($BASE)
+C_LONGINT($4DVER)
+C_TEXT($GIT_ROOT;$4DC;$4DINDY)
+
+C_LONGINT($httpCode)
+C_BLOB($BLOB_4DC;$BLOB_4DINDY)
+C_BOOLEAN($FLG_DOWNLOADED)
+C_TEXT($PATH_4DC;$PATH_4DINDY)
+
+C_BOOLEAN($FLG_COMPLETE)
+
+$FLG_COMPLETE:=False
+
+//4Dメジャーバージョン番号
+$4DVER:=Num(Substring(Application version;1;2))
+
+//ベース名称
+$BASE:="4D_Auto_Backup_V"+String($4DVER)
+
+//ベースURL
+$GIT_ROOT:="https://raw.githubusercontent.com/sampoh/4D_Auto_Backup/master/build/<replacer>.4dbase/"
+$4DC:=$GIT_ROOT+"<replacer>.4DC"
+$4DINDY:=$GIT_ROOT+"<replacer>.4DIndy"
+
+//名称置換
+$4DC:=Replace string($4DC;"<replacer>";$BASE)
+$4DINDY:=Replace string($4DINDY;"<replacer>";$BASE)
+
+//ダウンロード
+$FLG_DOWNLOADED:=False
+$httpCode:=HTTP Get($4DC;$BLOB_4DC)
+If (($httpCode>=200)&($httpCode<300))
+$httpCode:=HTTP Get($4DINDY;$BLOB_4DINDY)
+If (($httpCode>=200)&($httpCode<300))
+$FLG_DOWNLOADED:=True
+End if 
+End if 
+
+If ($FLG_DOWNLOADED)
+
+//ディレクトリ生成
+$DIR:=Structure file
+While ($DIR#("@"+Folder separator))
+$DIR:=Substring($DIR;1;Length($DIR)-1)
+End while 
+$DIR:=$DIR+"Components"+Folder separator
+If (Test path name($DIR)#Is a folder)
+CREATE FOLDER($DIR)
+End if 
+$DIR:=$DIR+$BASE+".4dbase"+Folder separator
+If (Test path name($DIR)#Is a folder)
+CREATE FOLDER($DIR)
+End if 
+
+//ファイル保存
+$PATH_4DC:=$DIR+$BASE+".4DC"
+$PATH_4DINDY:=$DIR+$BASE+".4DIndy"
+If (Test path name($PATH_4DC)=Is a document)
+DELETE DOCUMENT($PATH_4DC)
+End if 
+If (Test path name($PATH_4DINDY)=Is a document)
+DELETE DOCUMENT($PATH_4DINDY)
+End if 
+BLOB TO DOCUMENT($PATH_4DC;$BLOB_4DC)
+BLOB TO DOCUMENT($PATH_4DINDY;$BLOB_4DINDY)
+
+//完了チェック
+$FLG_COMPLETE:=(\
+(Test path name($PATH_4DC)=Is a document)&\
+(Test path name($PATH_4DINDY)=Is a document))
+
+End if 
+
+If ($FLG_COMPLETE)
+ALERT("正常にダウンロードが完了しました。")
+Else 
+ALERT("ダウンロードに失敗しました。")
+End if 
+
+TRACE
