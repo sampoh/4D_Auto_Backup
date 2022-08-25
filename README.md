@@ -11,5 +11,5 @@ Copy&paste "Manually_Submit.txt" to a method, and edit settings. After that exec
 Copy&paste or append "OnBackupShutdown.txt" to database method "On Backup Shutdown", and edit settings.  
 "OnBackupShutdown.txt" をデータベースメソッド "On Backup Shutdown" にコピー&ペーストもしくは追記して内容を修正してください。
 
-The supported authentication method is for Oauth 2.0 web applications.
+The supported authentication method is for Oauth 2.0 web applications.  
 対応している認証方式はOauth2.0のウェブアプリケーション用です。
